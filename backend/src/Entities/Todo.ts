@@ -7,11 +7,14 @@ export class Todo {
   id!: number;
 
   @Column()
-  title!: string;
+  title: string | undefined;
 
-  @Column()
-  description!: string;
+  @Column({ type: "text", nullable: true })
+  description: string | undefined;
+
+  @Column({ type: "enum", enum: ["pending", "completed"], default: "pending" })
+  status: "pending" | "completed" | undefined;
 
   @ManyToOne(() => User, (user) => user.todos)
-  user!: User;
+  user: User = new User();
 }

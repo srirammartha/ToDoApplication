@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToOne,
+} from "typeorm";
+import { Role } from "./Role";
 import { Todo } from "./Todo";
 
 @Entity()
@@ -7,14 +14,24 @@ export class User {
   id!: number;
 
   @Column({ unique: true })
-  username!: string;
+  username: string | undefined;
 
   @Column()
   password!: string;
 
-  @Column({ default: "User" })
-  role!: string;
+  @ManyToOne(() => Role, (role) => role.users, { nullable: true })
+  role!: Role;
 
   @OneToMany(() => Todo, (todo) => todo.user)
   todos!: Todo[];
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  createdAt!: Date;
+
+  @Column({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP",
+    onUpdate: "CURRENT_TIMESTAMP",
+  })
+  updatedAt!: Date;
 }

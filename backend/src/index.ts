@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { AppDataSource } from "./data-source";
 import authRoutes from "./routes/auth.routes";
 import todoRoutes from "./routes/todo.routes";
-import "./types/express";
+//import "./types/express";
 
 dotenv.config();
 const app = express();
